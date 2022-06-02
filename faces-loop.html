@@ -25,7 +25,7 @@
             if (s[0] == "resolution") resolution = parseFloat(s[1]);
         })
 
-        // For converting token id to hash
+        // Converting token id to hash
         var web3 = new Web3(new Web3.providers.HttpProvider("https://rpc.flashbots.net"));
         var faces = new web3.eth.Contract([
         {
@@ -34,11 +34,14 @@
             "outputs": [ { "internalType": "string", "name": "", "type": "string" } ]
         },
         ], "0xf01DfAC37DD149Cb686E05d06cd21930B011F10F");
-        
-        // Initial nonsense
-        var p5Sketch = new p5(sketch);
-        tokenId = -1;
-        hash = "00000000000000";
+
+        // Initial sketch
+        var p5Sketch = null;
+        tokenId = 0;
+        faces.methods._tokenIdToHash(tokenId).call().then(h => {
+            hash = h;
+            p5Sketch = new p5(sketch);
+        });
 
         function sketch(p5js) {
             p5js.setup = function() {
@@ -380,6 +383,8 @@
             p5js.text(hash, q - 25, a - 10);
             p5js.pop();
             p5js.saveCanvas();
+
+            // Lookup next token hash
             faces.methods._tokenIdToHash(++tokenId).call().then(h => {
                 hash = h;
                 p5Sketch.remove();
