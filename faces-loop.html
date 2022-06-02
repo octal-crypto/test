@@ -22,7 +22,7 @@
         settings.forEach(s => {
             s = s.split("=");
             if (s[0] == "density") density = parseInt(s[1]);
-            if (s[0] == "resolution") resolution = parseInt(s[1]);
+            if (s[0] == "resolution") resolution = parseFloat(s[1]);
         })
 
         // For converting token id to hash
