@@ -380,9 +380,9 @@
             p5js.text(hash, q - 25, a - 10);
             p5js.pop();
             p5js.saveCanvas();
-            p5Sketch.remove();
             faces.methods._tokenIdToHash(++tokenId).call().then(h => {
                 hash = h;
+                p5Sketch.remove();
                 p5Sketch = new p5(sketch);
             });
         }}
