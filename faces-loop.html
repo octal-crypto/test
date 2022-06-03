@@ -17,12 +17,14 @@
 <body>
     <script>
         // Parse resolution and pixel density from URL
+        tokenId = 0;
         var query = decodeURIComponent(window.location.href.slice(window.location.href.lastIndexOf("?")+1));
         var settings = query.split("&");
         settings.forEach(s => {
             s = s.split("=");
             if (s[0] == "density") density = parseInt(s[1]);
             if (s[0] == "resolution") resolution = parseFloat(s[1]);
+            if (s[0] == "token") tokenId = parseInt(s[1]);
         })
 
         // Converting token id to hash
@@ -37,7 +39,6 @@
 
         // Initial sketch
         var p5Sketch = null;
-        tokenId = 0;
         faces.methods._tokenIdToHash(tokenId).call().then(h => {
             hash = h;
             p5Sketch = new p5(sketch);
@@ -382,7 +383,7 @@
             p5js.text("Folded Faces. 2022.", q - 25, a - 15);
             p5js.text(hash, q - 25, a - 10);
             p5js.pop();
-            p5js.saveCanvas();
+            p5js.saveCanvas(tokenId.toString());
 
             // Lookup next token hash
             faces.methods._tokenIdToHash(++tokenId).call().then(h => {
