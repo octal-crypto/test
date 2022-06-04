@@ -386,11 +386,11 @@
             p5js.saveCanvas(tokenId.toString());
 
             // Lookup next token hash
-            faces.methods._tokenIdToHash(++tokenId).call().then(h => {
+            setTimeout(() =>faces.methods._tokenIdToHash(++tokenId).call().then(h => {
                 hash = h;
                 p5Sketch.remove();
                 p5Sketch = new p5(sketch);
-            });
+            }), 10000);
         }}
     </script>
 </body></html>
