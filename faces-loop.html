@@ -18,6 +18,7 @@
     <script>
         // Parse resolution and pixel density from URL
         tokenId = 0;
+        loopit=false;
         var query = decodeURIComponent(window.location.href.slice(window.location.href.lastIndexOf("?")+1));
         var settings = query.split("&");
         settings.forEach(s => {
@@ -25,6 +26,7 @@
             if (s[0] == "density") density = parseInt(s[1]);
             if (s[0] == "resolution") resolution = parseFloat(s[1]);
             if (s[0] == "token") tokenId = parseInt(s[1]);
+            if (s[0] == "loopit") loopit = true;
         })
 
         // Converting token id to hash
@@ -386,11 +388,13 @@
             p5js.saveCanvas(tokenId.toString());
 
             // Lookup next token hash
-            setTimeout(() =>faces.methods._tokenIdToHash(++tokenId).call().then(h => {
-                hash = h;
-                p5Sketch.remove();
-                p5Sketch = new p5(sketch);
-            }), 10000);
+            if (loopit) {
+                setTimeout(() =>faces.methods._tokenIdToHash(++tokenId).call().then(h => {
+                    hash = h;
+                    p5Sketch.remove();
+                    p5Sketch = new p5(sketch);
+                }), 10000);
+            }
         }}
     </script>
 </body></html>
