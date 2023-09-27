@@ -1,4 +1,4 @@
-accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+ethereum.request({ method: 'eth_requestAccounts' }).then(accounts =>
 ethereum
     .request({
       method: 'eth_sendTransaction',
@@ -14,4 +14,4 @@ ethereum
       ],
     })
     .then((txHash) => console.log(txHash))
-    .catch((error) => console.error(error));
+    .catch((error) => console.error(error)));
